@@ -1,20 +1,28 @@
 from flask import Flask, jsonify, request, abort
+import twilio.twiml
 
 app = Flask(__name__)
 
-latest_request = {}
+class logic:
+	def __init__(self):
+		self.lr = {}
+
+	def update(self, n):
+		self.lr = {'data':n}
+
+	def get(self):
+		reutrn self.lr
+
+state = logic()
 
 @app.route('/', methods=['GET'])
 def index():
-	return jsonify(latest_request), 200
+	return jsonify(state.get()), 200
 
 @app.route('/onText', methods = ['POST'])
 def onText():
-	if not request.form:
-		return abort(500)
-	else:
-		latest_request = request.form
-		return jsonify({'value':'success'}), 200
+	state.update(request.data)
+	return str(twilio.twiml.Response()), 200
 
 
 

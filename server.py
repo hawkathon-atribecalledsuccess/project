@@ -1,19 +1,10 @@
 from flask import Flask, jsonify, request, abort
 import twilio.twiml
+from logic import Logic
 
 app = Flask(__name__)
 
-class logic:
-	def __init__(self):
-		self.lr = {}
-
-	def update(self, n):
-		self.lr = {'data':n}
-
-	def get(self):
-		return self.lr
-
-state = logic()
+state = Logic()
 
 @app.route('/', methods=['GET'])
 def index():
@@ -22,9 +13,8 @@ def index():
 @app.route('/onText', methods = ['POST'])
 def onText():
 	state.update({'data': request.data, 'form': request.form, 'json': request.json})
+	state.openDoor(request.form['From'], request.form['Body'])
 	return str(twilio.twiml.Response()), 200
-
-
 
 @app.after_request
 def after_request(response):

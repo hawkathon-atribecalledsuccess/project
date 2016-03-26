@@ -1,4 +1,5 @@
 from flask import Flask, jsonify, request, abort
+
 app = Flask(__name__)
 
 latest_request = {}
@@ -9,10 +10,10 @@ def index():
 
 @app.route('/onText', methods = ['POST'])
 def onText():
-	if not request.json:
+	if not request.form:
 		return abort(500)
 	else:
-		latest_request = request.json
+		latest_request = request.form
 		return jsonify({'value':'success'}), 200
 
 

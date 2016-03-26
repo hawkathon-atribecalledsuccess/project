@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, request, abort
 app = Flask(__name__)
 
-@app.route('/onText', methods='GET'):
+@app.route('/onText', methods='GET')
 def default():
 	return 'Hello World', 200
 

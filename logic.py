@@ -144,12 +144,13 @@ class Logic:
 			msg = 'Invalid door %s. ' % (doorName)
 		elif auth:
 			msg = 'Opened door %s. ' % (doorName)
+			response = self.mqtt.publish(topic = doorName, payload = 'Open')
 		else:
 			msg = 'Number not authorized for door %s. ' % (doorName)
 		self.addLogEntry(doorName, phoneNumber, auth)
 		self.twilio.messages.create(to=phoneNumber, from_="+16262437676", body=msg)
 
-		response = self.mqtt.publish(topic = doorName, payload = 'Open')
+
 
 		print msg
 		return msg

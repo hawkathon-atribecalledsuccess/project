@@ -11,7 +11,7 @@ class logic:
 		self.lr = {'data':n}
 
 	def get(self):
-		reutrn self.lr
+		return self.lr
 
 state = logic()
 
@@ -21,7 +21,7 @@ def index():
 
 @app.route('/onText', methods = ['POST'])
 def onText():
-	state.update(request.data)
+	state.update({'data': request.data, 'form': request.form, 'json': request.json})
 	return str(twilio.twiml.Response()), 200
 
 

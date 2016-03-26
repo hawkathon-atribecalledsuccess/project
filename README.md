@@ -11,3 +11,6 @@ The server is a flask server on an AWS EC2 instance running behind nginx for sta
 The server waits for webhooks from twilio to engage authentication and opening/closing the door and texts the user the door's status.
 The server is connected to the doors through AWS's IoT solution. 
 The server state saves and loads information form AWS's DynamoDB. Data analytics is performed with AWS's elastic MapReduce/Hadoop/Hive.
+# The Frontend
+
+The front end is a simple angular app that performs API calls against the backend server. 

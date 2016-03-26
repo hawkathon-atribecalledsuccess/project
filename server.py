@@ -1,16 +1,18 @@
 from flask import Flask, jsonify, request, abort
 app = Flask(__name__)
 
-@app.route('/onText', methods='GET')
-def default():
-	return 'Hello World', 200
+latest_request = {}
 
-@app.route('/onText', methods='POST')
+@app.route('/', methods=['GET'])
+def index():
+	return jsonify(latest_request), 200
+
+@app.route('/onText', methods = ['POST'])
 def onText():
 	if not request.json:
 		return abort(500)
 	else:
-		print request.json
+		latest_request = request.json
 		return jsonify({'value':'success'}), 200
 
 

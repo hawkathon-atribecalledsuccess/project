@@ -1,0 +1,177 @@
+<!doctype: html>
+<html ng-app="doorMgrApp">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Door Manager</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.0-rc.2/angular.min.js"></script>
+		<script src="script.js"></script>
+	</head>
+	<body ng-controller="doorMgrCtrl">
+		<div class="container">
+			<div class="header">
+				<h3>Admin</h3>
+			</div>
+			<div class="row">
+				<div class="panel panel-default">
+					<div class="panel-heading">Doors</div>
+					<div class="panel-body">
+						<div ng-if="doorSelected">
+							<h4>{{selectedDoor.doorName}}</h4>
+							<p>{{selectedDoor.location}}</p>
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<th>Phone Numbers</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="number in selectedDoor.people track by $index">
+										<td>{{number}}</td>
+										<td>
+											<button type="submit" class="btn btn-default" ng-click="removePermission(number, selectedDoor.doorName)">
+												Remove Permission
+											</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<form class="form-inline">
+								<div class="form-group">
+									<label>Phone Number</label>
+									<div class="input-group">
+										<span class="input-group-addon">+1</span>
+										<input type="text" class="form-control"  placeholder="R123" ng-model="addPermissionUser">
+									</div>
+								</div>
+								<button type="submit" class="btn btn-default" ng-click="addPermission('+1' + addPermissionUser, selectedDoor.doorName)">Add Permission</button>
+									
+							</form>
+						</div>
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th>Doors</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="door in doors">
+									<td>{{door}}</td>
+									<td>
+										<div class="btn-group" role="group" aria-label="...">
+											<button type="submit" class="btn btn-default" ng-click="getDoor(door)">
+												Info
+											</button>
+											<button type="submit" class="btn btn-default" ng-click="removeDoor(door)">
+												Remove Door
+											</button>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<form class="form-inline">
+							<div class="form-group">
+								<label>Door Name</label>
+								<input type="text" class="form-control"  placeholder="R123" ng-model="addDoorFields.doorName">
+							</div>
+							<div class="form-group">
+								<label>Location</label>
+								<input type="text" class="form-control" placeholder="First floor eastern corridor. " ng-model="addDoorFields.location">
+							</div>
+							<div class="form-group">
+								<label>User</label>
+								<div class="input-group">
+									<span class="input-group-addon">+1</span>
+									<input type="text" class="form-control" placeholder="" ng-model="addDoorFields.user">
+								</div>
+							</div>
+							<button type="submit" class="btn btn-default" ng-click="submitAddDoor()">Add Door</button>
+						</form>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="panel panel-default">
+					<div class="panel-heading">Users</div>
+					<div class="panel-body">
+						<div ng-if="userSelected">
+							<h4>{{selectedUser.phoneNumber}}</h4>
+							<p>{{selectedUser.name}}</p>
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<th>Door</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr ng-repeat="door in selectedUser.doors track by $index">
+										<td>{{door}}</td>
+										<td>
+											<button type="submit" class="btn btn-default" ng-click="removePermission(selectedUser.phoneNumber, door)">
+												Remove Permission
+											</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<form class="form-inline">
+								<div class="form-group">
+									<label>Door Name</label>
+									<input type="text" class="form-control"  placeholder="R123" ng-model="addPermissionDoor">
+								</div>
+								<button type="submit" class="btn btn-default" ng-click="addPermission(selectedUser.phoneNumber, addPermissionDoor)">Add Permission</button>
+									
+							</form>
+						</div>
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th>Phone Number</th>
+									<th>Name</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="user in users">
+									<td>{{user.phoneNumber}}</td>
+									<td>{{user.name}}</td>
+									<td>
+										<div class="btn-group" role="group" aria-label="...">
+											<button type="submit" class="btn btn-default" ng-click="getPerson(user.phoneNumber)">
+												Info
+											</button>
+											<button type="submit" class="btn btn-default" ng-click="removeUser(user.phoneNumber)">
+												Remove User
+											</button>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<form class="form-inline">
+							<div class="form-group">
+								<label>Phone Number</label>
+								<div class="input-group">
+									<span class="input-group-addon">+1</span>
+									<input type="text" class="form-control"  placeholder="" ng-model="addUserFields.phoneNumber">
+								</div>
+							</div>
+							<div class="form-group">
+								<label>Name</label>
+								<input type="text" class="form-control" placeholder="Jane Doe" ng-model="addUserFields.name">
+							</div>
+							<button type="submit" class="btn btn-default" ng-click="submitAddUser()">Add User</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

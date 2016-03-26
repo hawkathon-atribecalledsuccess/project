@@ -8,11 +8,11 @@ state = Logic()
 
 @app.route('/', methods=['GET'])
 def index():
-	return jsonify(state.get()), 200
+	return jsonify(state.getLog()), 200
 
 @app.route('/onText', methods = ['POST'])
 def onText():
-	state.update({'data': request.data, 'form': request.form, 'json': request.json})
+	state.updateLog({'data': request.data, 'form': request.form, 'json': request.json})
 	state.openDoor(request.form['From'], request.form['Body'])
 	return str(twilio.twiml.Response()), 200
 

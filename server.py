@@ -1,4 +1,4 @@
-from flask import Flask, request, abort
+from flask import Flask, jsonify, request, abort
 app = Flask(__name__)
 
 @app.route('/onText', methods='POST')
@@ -7,6 +7,7 @@ def onText():
 		return abort(500)
 	else:
 		print request.json
+		return jsonify({'value':'success'}), 200
 
 @app.after_request
 def after_request(response):
